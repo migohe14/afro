@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,18 +45,38 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     @Override
     public void onClick(View v) {
+        signIn();
+    }
 
+    private void signIn() {
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(AuthActivity.this, "Authentication success.",
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            textInfo.setText("Loged as: " + user.getEmail());
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(AuthActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            textInfo.setText("Sign In failed");
+                        }
 
-
+                        // ...
+                    }
+                });
     }
 
 
 
 
-};
-    private class auth{}
+}
