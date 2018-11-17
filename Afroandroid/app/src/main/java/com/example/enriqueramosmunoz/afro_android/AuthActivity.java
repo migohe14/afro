@@ -49,7 +49,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        signIn();
+        if (v == signIn){
+            signIn();
+        }
+        else if (v == signOut){
+            signOut();
+        }
     }
 
     private void signIn() {
@@ -76,7 +81,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-
+    private void signOut() {
+        mAuth.signOut();
+        textInfo.setText("Sign Out Success");
+        Toast.makeText(AuthActivity.this, "Sign Out...",
+                Toast.LENGTH_SHORT).show();
+    }
 
 
 }
