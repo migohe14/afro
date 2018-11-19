@@ -1,6 +1,0 @@
-framework module Pods_AfroTests {
-  umbrella header "Pods-AfroTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
