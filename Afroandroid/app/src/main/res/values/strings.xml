@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Afro-android</string>
+    <string name="title_activity_sign_up">signUpActivity</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.enriqueramosmunoz.afro_android;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,26 +19,38 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
+
+ //   String email= getIntent().getStringExtra("EMAIL_EXTRA");
+ //   String password= getIntent().getStringExtra("PASSWORD_EXTRA");
+
     private TextView textInfo;
-    private EditText emailText;
-    private EditText passwordText;
+    private EditText emailInput;
+    private EditText passwordInput;
     private Button signIn;
     private Button signOut;
     private FirebaseAuth mAuth;
+    private TextView signUp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+
         mAuth = FirebaseAuth.getInstance();
+
         textInfo = findViewById(R.id.textInfo);
-        emailText = findViewById(R.id.email);
-        passwordText = findViewById(R.id.password);
+        emailInput = findViewById(R.id.email);
+        passwordInput = findViewById(R.id.password);
         signIn = findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
         signOut = findViewById(R.id.signOut);
         signOut.setOnClickListener(this);
+        signUp = findViewById(R.id.signUp);
+        signUp.setOnClickListener(this);
+
+//        if (email!=null){emailInput.setText(email);}
+//        if (password!=null){passwordInput.setText(password);}
     }
 
     @Override
@@ -55,11 +68,21 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         else if (v == signOut){
             signOut();
         }
+        else if (v == signUp){
+            Intent intent =new Intent(AuthActivity.this, SignUpActivity.class);
+            //if (emailInput.getText() != null){
+            //    getIntent().putExtra("EMAIL_EXTRA", emailInput.getText());
+            //}
+            //if (passwordInput.getText() != null){
+            //    getIntent().putExtra("PASSWORD_EXTRA", passwordInput.getText());
+            //}
+            startActivity(intent);
+        }
     }
 
     private void signIn() {
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
