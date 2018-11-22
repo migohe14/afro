@@ -1,5 +1,6 @@
 package com.example.enriqueramosmunoz.afro_android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
- //   String email= getIntent().getStringExtra("EMAIL_EXTRA");
- //   String password= getIntent().getStringExtra("PASSWORD_EXTRA");
+
 
     private TextView textInfo;
     private EditText emailInput;
@@ -48,9 +48,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(this);
-
-//        if (email!=null){emailInput.setText(email);}
-//        if (password!=null){passwordInput.setText(password);}
+        String email= getIntent().getStringExtra("EMAIL_EXTRA");
+        String password= getIntent().getStringExtra("PASSWORD_EXTRA");
+        if (email!=null){emailInput.setText(email);}
+        if (password!=null){passwordInput.setText(password);}
     }
 
     @Override
@@ -58,7 +59,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -70,38 +76,58 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (v == signUp){
             Intent intent =new Intent(AuthActivity.this, SignUpActivity.class);
-            //if (emailInput.getText() != null){
-            //    getIntent().putExtra("EMAIL_EXTRA", emailInput.getText());
-            //}
-            //if (passwordInput.getText() != null){
-            //    getIntent().putExtra("PASSWORD_EXTRA", passwordInput.getText());
-            //}
+            if (emailInput.getText().toString().length()>0){
+                intent.putExtra("EMAIL_EXTRA", emailInput.getText().toString());
+            }
+            if (passwordInput.getText().toString().length()>0){
+                intent.putExtra("PASSWORD_EXTRA", passwordInput.getText().toString());
+            }
             startActivity(intent);
+            //finish();
         }
     }
 
     private void signIn() {
+        if (verifyFields()) {
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(AuthActivity.this, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            textInfo.setText("Loged as: " + user.getEmail());
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(AuthActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            textInfo.setText("Sign In failed");
-                        }
-
-                        // ...
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Toast.makeText(AuthActivity.this, "Authentication success.",Toast.LENGTH_SHORT).show();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    textInfo.setText("Loged as: " + user.getEmail());
+                    Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(AuthActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    textInfo.setText("Sign In failed");
                     }
-                });
+                }
+            });
+        }else alertFieldsNull();
+    }
+
+    private void alertFieldsNull() {
+        Toast.makeText(AuthActivity.this, "Some fields are empty",Toast.LENGTH_SHORT).show();
+
+        if (emailInput.getText().toString().length()==0 ){
+            emailInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+        if (passwordInput.getText().toString().length()==0){
+            passwordInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+    }
+
+    private boolean verifyFields() {
+        if(emailInput.getText().toString().length()>=1 && passwordInput.getText().toString().length()>=1){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private void signOut() {

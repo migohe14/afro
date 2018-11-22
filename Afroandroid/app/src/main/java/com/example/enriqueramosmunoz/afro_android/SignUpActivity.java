@@ -18,9 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
-    //String email= getIntent().getStringExtra("EMAIL_EXTRA");
-    //String password= getIntent().getStringExtra("PASSWORD_EXTRA");
-
     private FirebaseAuth mAuth;
     private TextView title;
     private EditText emailInput;
@@ -45,30 +42,74 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         enterButton = findViewById(R.id.signUpButton);
         enterButton.setOnClickListener(this);
 
-        //if (email!=null){emailInput.setText(email);}
-        //if (password!=null){passwordInput.setText(password);}
+        String email = getIntent().getStringExtra("EMAIL_EXTRA");
+        String password = getIntent().getStringExtra("PASSWORD_EXTRA");
+
+        if (email!=null){emailInput.setText(email);}
+        if (password!=null){passwordInput.setText(password);}
     }
 
     @Override
     public void onClick(View v) {
         if (v == title){
-            Intent intent =new Intent(SignUpActivity.this, AuthActivity.class);
-            //if (emailInput.getText() != null){
-            //    getIntent().putExtra("EMAIL_EXTRA", emailInput.getText());
-            //}
-            //if (passwordInput.getText() != null){
-            //    getIntent().putExtra("PASSWORD_EXTRA", passwordInput.getText());
-            //}
-            startActivity(intent);
+            goToAuth();
         }
         else if (v == enterButton){
-            Toast.makeText(SignUpActivity.this, "1",
-                    Toast.LENGTH_SHORT).show();
-            createNewAccout();
+            checkFields();
         }
     }
 
-    private void createNewAccout(){
+    private void goToAuth() {
+        Intent intent =new Intent(SignUpActivity.this, AuthActivity.class);
+        if (emailInput.getText() != null){
+            intent.putExtra("EMAIL_EXTRA", emailInput.getText().toString());
+        }
+        if (passwordInput.getText() != null){
+            intent.putExtra("PASSWORD_EXTRA", passwordInput.getText().toString());
+        }
+        startActivity(intent);
+    }
+
+    private void checkFields() {
+        if(emailInput.getText().toString().length()>0
+                && passwordInput.getText().toString().length()>0
+                && verifyPasswordInput.getText().toString().length()>0
+                && userInput.getText().toString().length()>0){
+                    if(verifyPasswordInput.getText().toString().equals(passwordInput.getText().toString())){
+                        verifyPasswordInput.setTextColor(getResources().getColor(R.color.black));
+                        createNewAccount();
+                    }
+                    else {
+                        passwordNotEqual();
+                    }
+        }else {
+            alertFieldsNull();
+        }
+    }
+
+    private void passwordNotEqual() {
+        Toast.makeText(SignUpActivity.this, "The passwords does not match",Toast.LENGTH_SHORT).show();
+        verifyPasswordInput.setTextColor(getResources().getColor(R.color.alert));
+    }
+
+    private void alertFieldsNull() {
+        Toast.makeText(SignUpActivity.this, "Some fields are empty",Toast.LENGTH_SHORT).show();
+
+        if (emailInput.getText().toString().length()==0 ){
+            emailInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+        if (passwordInput.getText().toString().length()==0){
+            passwordInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+        if (verifyPasswordInput.getText().toString().length()==0){
+            verifyPasswordInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+        if (userInput.getText().toString().length()==0){
+            userInput.setHintTextColor(getResources().getColor(R.color.alert));
+        }
+    }
+
+    private void createNewAccount(){
         mAuth.createUserWithEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -77,22 +118,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignUpActivity.this, "Authentication success.",
                             Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
                         }
 
                         // ...
                     }
                 });
-    }
-    private void updateUI(FirebaseUser user) {
-         FirebaseUser fireUser = user;
-        title.setText(user.getEmail());
     }
 
 
