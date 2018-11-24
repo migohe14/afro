@@ -27,9 +27,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private EditText emailInput;
     private EditText passwordInput;
     private Button signIn;
-    private Button signOut;
     private FirebaseAuth mAuth;
     private TextView signUp;
+    private TextView facebookLogin;
+    private TextView forgotPassword;
 
 
     @Override
@@ -44,10 +45,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         passwordInput = findViewById(R.id.password);
         signIn = findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
-        signOut = findViewById(R.id.signOut);
-        signOut.setOnClickListener(this);
         signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(this);
+        facebookLogin=findViewById(R.id.loginWithFacebook);
+        facebookLogin.setOnClickListener(this);
+        forgotPassword=findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(this);
         String email= getIntent().getStringExtra("EMAIL_EXTRA");
         String password= getIntent().getStringExtra("PASSWORD_EXTRA");
         if (email!=null){emailInput.setText(email);}
@@ -71,9 +74,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         if (v == signIn){
             signIn();
         }
-        else if (v == signOut){
-            signOut();
-        }
         else if (v == signUp){
             Intent intent =new Intent(AuthActivity.this, SignUpActivity.class);
             if (emailInput.getText().toString().length()>0){
@@ -85,6 +85,22 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             //finish();
         }
+        else if(v==facebookLogin){
+            facebookLogin();
+        }
+        else if(v==forgotPassword){
+            forgotPassword();
+        }
+    }
+
+    private void facebookLogin() {
+        Intent intent = new Intent(AuthActivity.this, FacebookLoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void forgotPassword() {
+        Intent intent = new Intent(AuthActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void signIn() {
@@ -129,13 +145,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
     }
-
-    private void signOut() {
-        mAuth.signOut();
-        textInfo.setText("Sign Out Success");
-        Toast.makeText(AuthActivity.this, "Sign Out...",
-                Toast.LENGTH_SHORT).show();
-    }
+    
 
 
 }
