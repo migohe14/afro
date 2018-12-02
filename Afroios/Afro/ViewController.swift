@@ -11,41 +11,57 @@ import Firebase
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var text: UILabel!
+    @IBOutlet weak var signUpPassword: UITextField!
+    @IBOutlet weak var signUpEmail: UITextField!
+    static var FirebaseIsAlreadyLunched = false
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBAction func logIn(_ sender: Any) {
         logIn()
     }
-    @IBAction func logOut(_ sender: Any) {
-        logOut()
+    @IBAction func signUp(_ sender: Any) {
+        signUp()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        FirebaseApp.configure()
+        if !ViewController.FirebaseIsAlreadyLunched {
+            FirebaseApp.configure()
+            ViewController.FirebaseIsAlreadyLunched = true
+        }
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
     }
     private func logIn(){
-        text.text = String("Logging In")
         self.authIn()
     }
-    private func logOut(){
-        text.text = String("Logging Out")
-        self.authOut()
+    private func signUp(){
+        self.fireSignUp()
     }
     private func authIn(){
         guard let email = email.text else {return}
         guard let password = password.text else {return}
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error == nil && user != nil {
-                self.text.text = String("Log In")
-                MainNavigationController().navigateToGreen()
+                self.MainNavigationController()
             }
             else {
-                self.text.text = String("Error")
+                print("Error")
                 
             }
+        }
+    }
+    private func fireSignUp(){
+        guard let signUpEmail = signUpEmail.text else {return}
+        guard let signUpPassword = signUpPassword.text else {return}
+        Auth.auth().createUser(withEmail: signUpEmail, password: signUpPassword) { (authResult, error) in
+            if error == nil && authResult != nil {
+                self.MainNavigationController()
+            }
+            guard let user = authResult?.user else { return }
+            print(user)
         }
     }
     private func authOut(){
@@ -55,6 +71,12 @@ class ViewController: UIViewController {
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
+    }
+    
+    private func MainNavigationController(){
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let mainNavigationVC = mainStoryboard.instantiateViewController(withIdentifier: "MainNavigationController") as? MainNavigationController else {return}
+        present(mainNavigationVC, animated: true, completion: nil)
     }
     
 }
