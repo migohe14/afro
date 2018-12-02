@@ -1,20 +1,22 @@
 <template>
   <div class="hello">
-    <input type="email" v-model="email" placeholder="e-mail"><br>
-    <input type="password" v-model="password" placeholder="password"><br>
-    <button v-on:click="logIn">Log In</button><br>
-    <button v-on:click="logOut">Log Out</button><br>
-    <h1>{{ state }}</h1><br>
+   <form class="form-signin" @submit="logIn">
+            <input type="email" id="inputEmail" class="form-control mt-3" placeholder="Email address" required autofocus v-model="email">
+            <input type="password" id="inputPassword" class="form-control mt-3" placeholder="Password" required v-model="password">
+            <button class="btn btn-lg bg-button btn-block btn-signin mt-3" type="submit">Log In</button>
+    </form><!-- /form -->
+    <h1>{{ error }}</h1><br>
+    <button v-on:click="signIn">Sign In</button><br>
   </div>
 </template>
 
 <script>
 import {firebaseApp} from '../firebase.js'
 export default {
-  name: 'HelloWorld',
+  name: 'LogIn',
   data () {
     return {
-      state: 'Nothing happen',
+      error: '',
       email: '',
       password: ''
     }
@@ -30,20 +32,18 @@ export default {
       firebaseApp.auth().signInWithEmailAndPassword(this.email, this.password)
       .then((user)=>{
         this.state=user.user.email
+        this.$router.replace("/profile")
       })
       .catch((error)=>{
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        this.state=error.code
+        this.error=error.code
         // ...
         });
     },
-    logOut: function () {
-      this.state="Logging Out"
-      firebaseApp.auth().signOut()
-      .then(()=>{this.state="Log Out Succesfully"})
-      .catch((error)=>{console.log(error.code)})
+    signIn: function () {
+      this.$router.replace("/signin")
     },
   }
 }
