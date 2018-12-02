@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		374AA29421A3523200508D35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 374AA29321A3523200508D35 /* GoogleService-Info.plist */; };
 		37BD531D21A34FAE00E0C820 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BD531C21A34FAE00E0C820 /* AppDelegate.swift */; };
 		37BD531F21A34FAE00E0C820 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BD531E21A34FAE00E0C820 /* ViewController.swift */; };
 		37BD532221A34FAE00E0C820 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BD532021A34FAE00E0C820 /* Main.storyboard */; };
@@ -15,6 +14,8 @@
 		37BD532721A34FAF00E0C820 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37BD532521A34FAF00E0C820 /* LaunchScreen.storyboard */; };
 		37BD533221A34FAF00E0C820 /* AfroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BD533121A34FAF00E0C820 /* AfroTests.swift */; };
 		37BD533D21A34FAF00E0C820 /* AfroUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BD533C21A34FAF00E0C820 /* AfroUITests.swift */; };
+		37F8B59421A977EC00AAD488 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37F8B59321A977EC00AAD488 /* GoogleService-Info.plist */; };
+		37F8B59621A9805600AAD488 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8B59521A9805600AAD488 /* MainNavigationController.swift */; };
 		9A30BB3B931B04E4AB11FCCE /* Pods_AfroUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D0DA39A5D7F04D27C3D1F6F /* Pods_AfroUITests.framework */; };
 		B68BC148AB54E341A5C3CD68 /* Pods_AfroTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9454317F5620CDD9892D70B /* Pods_AfroTests.framework */; };
 		BE27DC578051481D1EE2DF3D /* Pods_Afro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19558B77B4B521DA6D9821 /* Pods_Afro.framework */; };
@@ -39,7 +40,6 @@
 
 /* Begin PBXFileReference section */
 		0D0DA39A5D7F04D27C3D1F6F /* Pods_AfroUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AfroUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		374AA29321A3523200508D35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37BD531921A34FAE00E0C820 /* Afro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Afro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BD531C21A34FAE00E0C820 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37BD531E21A34FAE00E0C820 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +53,8 @@
 		37BD533821A34FAF00E0C820 /* AfroUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AfroUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BD533C21A34FAF00E0C820 /* AfroUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfroUITests.swift; sourceTree = "<group>"; };
 		37BD533E21A34FAF00E0C820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37F8B59321A977EC00AAD488 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		37F8B59521A9805600AAD488 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		6C108AF64294942A7D2ACAD0 /* Pods-AfroUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AfroUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AfroUITests/Pods-AfroUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B11282C3455C1A816C5BA562 /* Pods-Afro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Afro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Afro/Pods-Afro.debug.xcconfig"; sourceTree = "<group>"; };
 		B6C982751825905F70602F8B /* Pods-AfroUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AfroUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AfroUITests/Pods-AfroUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,10 +120,11 @@
 			children = (
 				37BD531C21A34FAE00E0C820 /* AppDelegate.swift */,
 				37BD531E21A34FAE00E0C820 /* ViewController.swift */,
+				37F8B59521A9805600AAD488 /* MainNavigationController.swift */,
 				37BD532021A34FAE00E0C820 /* Main.storyboard */,
 				37BD532321A34FAF00E0C820 /* Assets.xcassets */,
 				37BD532521A34FAF00E0C820 /* LaunchScreen.storyboard */,
-				374AA29321A3523200508D35 /* GoogleService-Info.plist */,
+				37F8B59321A977EC00AAD488 /* GoogleService-Info.plist */,
 				37BD532821A34FAF00E0C820 /* Info.plist */,
 			);
 			path = Afro;
@@ -277,7 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37BD532721A34FAF00E0C820 /* LaunchScreen.storyboard in Resources */,
-				374AA29421A3523200508D35 /* GoogleService-Info.plist in Resources */,
+				37F8B59421A977EC00AAD488 /* GoogleService-Info.plist in Resources */,
 				37BD532421A34FAF00E0C820 /* Assets.xcassets in Resources */,
 				37BD532221A34FAE00E0C820 /* Main.storyboard in Resources */,
 			);
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F8B59621A9805600AAD488 /* MainNavigationController.swift in Sources */,
 				37BD531F21A34FAE00E0C820 /* ViewController.swift in Sources */,
 				37BD531D21A34FAE00E0C820 /* AppDelegate.swift in Sources */,
 			);
@@ -510,7 +514,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -565,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

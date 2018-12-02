@@ -26,20 +26,21 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         FirebaseApp.configure()
     }
-    @objc func logIn(){
+    private func logIn(){
         text.text = String("Logging In")
-        authIn()
+        self.authIn()
     }
-    @objc func logOut(){
+    private func logOut(){
         text.text = String("Logging Out")
-        authOut()
+        self.authOut()
     }
-    @objc func authIn(){
+    private func authIn(){
         guard let email = email.text else {return}
         guard let password = password.text else {return}
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error == nil && user != nil {
                 self.text.text = String("Log In")
+                MainNavigationController().navigateToGreen()
             }
             else {
                 self.text.text = String("Error")
@@ -47,7 +48,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    @objc func authOut(){
+    private func authOut(){
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
@@ -55,4 +56,5 @@ class ViewController: UIViewController {
             print ("Error signing out: %@", signOutError)
         }
     }
+    
 }
