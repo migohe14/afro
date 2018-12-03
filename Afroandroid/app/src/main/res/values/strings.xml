@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Afro-android</string>
     <string name="title_activity_sign_up">signUpActivity</string>
+    <string name="facebook_app_id">136702210330043</string> <string name="fb_login_protocol_scheme">fb136702210330043</string>
 </resources>
