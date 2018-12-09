@@ -12,6 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -21,17 +28,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-
     private TextView textInfo;
     private EditText emailInput;
     private EditText passwordInput;
     private Button signIn;
     private FirebaseAuth mAuth;
     private TextView signUp;
-    private TextView facebookLogin;
     private TextView forgotPassword;
-
+    private  static CallbackManager callbackManager;
+    private LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_auth);
 
         mAuth = FirebaseAuth.getInstance();
-
         textInfo = findViewById(R.id.textInfo);
         emailInput = findViewById(R.id.email);
         passwordInput = findViewById(R.id.password);
@@ -48,14 +52,46 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         signIn.setOnClickListener(this);
         signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(this);
-        facebookLogin=findViewById(R.id.loginWithFacebook);
-        facebookLogin.setOnClickListener(this);
         forgotPassword=findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
         String email= getIntent().getStringExtra("EMAIL_EXTRA");
         String password= getIntent().getStringExtra("PASSWORD_EXTRA");
         if (email!=null){emailInput.setText(email);}
         if (password!=null){passwordInput.setText(password);}
+
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null;
+        if(isLoggedIn){
+            Log.d("Facebook", "Is Logged");
+            Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        else{Log.d("Facebook", "Is Not Logged");}
+
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d("Facebook", loginResult.toString());
+                Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("Facebook", "Cancel");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.d("Facebook", "Error");
+            }
+        });
+
     }
 
     @Override
@@ -86,17 +122,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             //finish();
         }
-        else if(v==facebookLogin){
-            facebookLogin();
-        }
         else if(v==forgotPassword){
             forgotPassword();
         }
-    }
-
-    private void facebookLogin() {
-        Intent intent = new Intent(AuthActivity.this, FacebookLoginActivity.class);
-        startActivity(intent);
     }
 
     private void forgotPassword() {
@@ -145,6 +173,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }else {
             return false;
         }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
     }
     
 

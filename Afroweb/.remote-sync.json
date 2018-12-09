@@ -1,0 +1,20 @@
+{
+  "logger": {
+    "title": "Remote Sync"
+  },
+  "uploadOnSave": true,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "18.191.26.133",
+  "target": "/home/",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "username": "ec2-user",
+  "keyfile": "/Users/enriqueramosmunoz/Desktop/EC2key.pem",
+  "watch": [],
+  "transport": "scp",
+  "passphrase": "42:38:6b:b9:2f:64:c1:f3:3c:1b:86:61:35:1b:ca:39:ab:3b:db:32\n",
+  "port": "22"
+}

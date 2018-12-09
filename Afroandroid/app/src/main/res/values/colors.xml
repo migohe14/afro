@@ -3,9 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="background">#d472fc8c</color>
+    <color name="background">#9C27B0</color>
     <color name="white">#ffffff</color>
-    <color name="semiwhite">#9dffffff</color>
+    <color name="semiwhite">#E1BEE7</color>
+    <color name="button">#cd6ff2</color>
     <color name="alert">#68ff0000</color>
     <color name="black">#000000</color>
 
