@@ -3,7 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import firebase from 'firebase'
+// import firebase from 'firebase'
+import VueFire from 'vuefire'
+
+
+Vue.use(VueFire)
+
 
 Vue.config.productionTip = false
 
